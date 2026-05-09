@@ -8,7 +8,7 @@ GATK/Picard, Qualimap, FastQC, and custom depth summaries.
 
 ## Operating Model
 
-- Local path: `D:\pipeline\snp-nipt`
+- Local path: `D:\pipeline\wes-nipt`
 - Local git is the source of truth.
 - Any remote git repository is a mirror for backup or sharing.
 - Code testing and workflow execution happen on the YFY node through SSH.

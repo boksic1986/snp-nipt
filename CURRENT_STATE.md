@@ -8,8 +8,11 @@ Snapshot time: 2026-05-10 00:57:57 CST on YFY.
 - GitHub default branch: `main`
 - Confirmed via GitHub plugin: repository `boksic1986/snp-nipt` is public and
   the authenticated account has push/admin permissions.
-- Local `main` and GitHub `main` were both at commit
-  `849747b87869321a2fadd473e7828b9a64381ac6`.
+- Local project workspace is `D:\pipeline\wes-nipt`.
+- Deprecated local split copy `D:\pipeline\snp-nipt` was migrated into
+  `D:\pipeline\wes-nipt` and should stay deleted.
+- Before local directory consolidation, GitHub `main` contained handoff commit
+  `664d6e5b662864e1ecedca0173d47cf84bc7e976`.
 
 ## Implemented Workflow Scope
 

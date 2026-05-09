@@ -5,6 +5,13 @@ the source of truth and GitHub as the remote mirror.
 
 ## Operating Rules
 
+- Use `D:\pipeline\wes-nipt` as the only local project workspace.
+- Do not create, read from, or save new project files under
+  `D:\pipeline\snp-nipt`; that directory was a temporary split copy and must
+  stay deleted after migration.
+- Root-level handoff and agent documents must use `.md` suffixes, for example
+  `AGENTS.md`, `CURRENT_STATE.md`, `PLAN.md`, `REP_MAP.md`, and
+  `AGENT_SKILLS.md`.
 - Keep edits small, reviewable, and aligned with the existing Snakemake layout.
 - Do not revert user changes unless the user explicitly asks.
 - Prefer `rg` for search and focused shell commands for inspection.
@@ -16,7 +23,7 @@ the source of truth and GitHub as the remote mirror.
 
 ## Runtime Host
 
-- Local workspace: `D:\pipeline\snp-nipt`
+- Local workspace: `D:\pipeline\wes-nipt`
 - Runtime host alias: `YFY`
 - Runtime repo copy: `/home/user/snp-nipt`
 - Raw data: `/home/user/raw_data/panal`

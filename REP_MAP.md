@@ -4,11 +4,11 @@
 
 - `README.md`: project overview and quick start.
 - `Snakefile`: root entry point that delegates to `workflow/Snakefile`.
-- `AGENTS`: agent operating instructions.
-- `CURRENT_STATE`: current repo and runtime status.
-- `PLAN`: completed, active, and deferred work.
-- `REP_MAP`: this repository map.
-- `AGENT_SKILLS`: agent-to-skill and plugin mapping.
+- `AGENTS.md`: agent operating instructions.
+- `CURRENT_STATE.md`: current repo and runtime status.
+- `PLAN.md`: completed, active, and deferred work.
+- `REP_MAP.md`: this repository map.
+- `AGENT_SKILLS.md`: agent-to-skill and plugin mapping.
 
 ## Configuration
 

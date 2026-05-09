@@ -2,7 +2,7 @@
 
 ## 1. Copy or Pull Code
 
-Develop locally in `D:\pipeline\snp-nipt`. Sync the repository to YFY using the
+Develop locally in `D:\pipeline\wes-nipt`. Sync the repository to YFY using the
 team's preferred local-to-node method. Treat YFY as the runtime copy, not the
 primary repository.
 
@@ -25,7 +25,7 @@ chmod +x /home/user/software/bin/gatk4
 ## 3. Create Conda Environment
 
 ```bash
-cd /path/to/snp-nipt
+cd /path/to/wes-nipt
 /home/user/anaconda3/bin/conda env create -f workflow/envs/snakemake.yaml
 /home/user/anaconda3/bin/conda activate snp-nipt-snakemake
 ```

@@ -49,7 +49,7 @@ Panel BED roles:
 ## Quick Start on YFY
 
 ```bash
-cd /path/to/snp-nipt
+cd /path/to/wes-nipt
 
 /home/user/anaconda3/bin/conda env create -f workflow/envs/snakemake.yaml
 /home/user/anaconda3/bin/conda activate snp-nipt-snakemake
