@@ -1,0 +1,56 @@
+# Current State
+
+Snapshot time: 2026-05-10 00:57:57 CST on YFY.
+
+## Repository
+
+- GitHub repository: `https://github.com/boksic1986/snp-nipt.git`
+- GitHub default branch: `main`
+- Confirmed via GitHub plugin: repository `boksic1986/snp-nipt` is public and
+  the authenticated account has push/admin permissions.
+- Local `main` and GitHub `main` were both at commit
+  `849747b87869321a2fadd473e7828b9a64381ac6`.
+
+## Implemented Workflow Scope
+
+Phase 1 implements SNP capture panel QC:
+
+- sample discovery and fixed sample sheet in `config/samples.tsv`
+- hg38 reference configuration
+- BWA index and `bwa mem` alignment
+- samtools sort, index, flagstat, and stats
+- GATK/Picard MarkDuplicates, insert-size metrics, and HS metrics
+- FastQC
+- Qualimap BAM QC
+- capture-region and loci-level depth summaries
+- duplicate-fragment concentration summaries
+
+NIPT-specific analysis is intentionally deferred.
+
+## Current YFY Run
+
+- Snakemake PID: `1272575`
+- PID file: `/home/user/analysis/logs/snp-nipt.snakemake.pid`
+- Main log: `/home/user/analysis/logs/snp-nipt.snakemake.run.log`
+- Command shape:
+
+```bash
+cd /home/user/snp-nipt
+nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
+  /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --cores 8 --rerun-incomplete --printshellcmds --latency-wait 60 \
+  > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
+```
+
+Observed progress at snapshot:
+
+- `4 of 123 steps (3%) done`
+- FastQC jobs were completing and more FastQC jobs were being scheduled.
+- `find /home/user/analysis/qc/fastqc` reported 16 FastQC zip/html files.
+
+## Known Runtime Context
+
+- A stale `conda install` process was killed before this snapshot.
+- An unrelated GATK HaplotypeCaller job was present and left untouched.
+- Some YFY non-interactive shell utilities have locale/alias quirks; keep status
+  checks simple and avoid relying on piped `head`/`sed` when not necessary.

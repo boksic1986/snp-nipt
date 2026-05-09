@@ -1,0 +1,83 @@
+# YFY Run Log - 2026-05-10
+
+## Snapshot
+
+- Time: 2026-05-10 00:57:57 CST
+- Runtime host: `YFY`
+- Runtime repo: `/home/user/snp-nipt`
+- Analysis directory: `/home/user/analysis`
+- Snakemake PID: `1272575`
+- PID file: `/home/user/analysis/logs/snp-nipt.snakemake.pid`
+- Main log: `/home/user/analysis/logs/snp-nipt.snakemake.run.log`
+
+## Launch Command
+
+```bash
+cd /home/user/snp-nipt
+mkdir -p /home/user/analysis/logs
+nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
+  /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --cores 8 --rerun-incomplete --printshellcmds --latency-wait 60 \
+  > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
+echo $! > /home/user/analysis/logs/snp-nipt.snakemake.pid
+```
+
+The PID file was later corrected to the actual Snakemake Python process:
+`1272575`.
+
+## Process Snapshot
+
+```text
+PID      PPID    STAT  ELAPSED  %CPU  %MEM  CMD
+1272575  1272572 Sl    12:41    2.4   0.0   /home/user/anaconda3/envs/snp-nipt-snakemake/bin/python -m snakemake --cores 8 --rerun-incomplete --printshellcmds --latency-wait 60
+```
+
+## Progress Snapshot
+
+The main log showed:
+
+```text
+Finished jobid: 3 (Rule: fastqc)
+4 of 123 steps (3%) done
+Execute 1 jobs...
+```
+
+The next scheduled job was FastQC for:
+
+```text
+JZ26089875-SSL-4-Sample12A
+```
+
+FastQC output count:
+
+```text
+16 zip/html files under /home/user/analysis/qc/fastqc
+```
+
+## Notes
+
+- A stale `conda install` process from earlier setup was terminated.
+- The active Snakemake run was left running.
+- An unrelated GATK HaplotypeCaller process was left untouched.
+- The run is expected to continue through BWA, Picard, samtools, depth,
+  duplicates, and Qualimap after FastQC and prerequisite resources complete.
+
+## Quick Commands
+
+Check the process:
+
+```bash
+ssh YFY "ps -p 1272575 -o pid,ppid,stat,etime,pcpu,pmem,cmd"
+```
+
+Read recent workflow log:
+
+```bash
+ssh YFY "tail -80 /home/user/analysis/logs/snp-nipt.snakemake.run.log"
+```
+
+List failed or recent rule logs if Snakemake stops:
+
+```bash
+ssh YFY "ls -lt /home/user/analysis/logs | head"
+```

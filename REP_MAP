@@ -1,0 +1,53 @@
+# Repository Map
+
+## Root
+
+- `README.md`: project overview and quick start.
+- `Snakefile`: root entry point that delegates to `workflow/Snakefile`.
+- `AGENTS`: agent operating instructions.
+- `CURRENT_STATE`: current repo and runtime status.
+- `PLAN`: completed, active, and deferred work.
+- `REP_MAP`: this repository map.
+- `AGENT_SKILLS`: agent-to-skill and plugin mapping.
+
+## Configuration
+
+- `config/config.yaml`: YFY paths, reference, BED roles, tool paths, threads,
+  and depth thresholds.
+- `config/samples.tsv`: paired FASTQ sample sheet for 10 samples.
+
+## Workflow
+
+- `workflow/Snakefile`: main Snakemake DAG and `rule all`.
+- `workflow/rules/common.smk`: shared config constants and sample loading.
+- `workflow/rules/fastq.smk`: FastQC.
+- `workflow/rules/bwa.smk`: BWA index and BWA MEM alignment with samtools sort.
+- `workflow/rules/samtools.smk`: BAM index, flagstat, and stats.
+- `workflow/rules/picard.smk`: GATK/Picard dictionary, BED interval lists,
+  MarkDuplicates, insert-size metrics, and HS metrics.
+- `workflow/rules/coverage.smk`: capture and loci depth summaries.
+- `workflow/rules/qc.smk`: Qualimap BAM QC.
+- `workflow/envs/snakemake.yaml`: conda environment definition.
+
+## Scripts
+
+- `scripts/discover_panel_inputs.sh`: discovers YFY panel inputs and updates
+  sample/config context.
+- `scripts/gatk4-wrapper.sh`: wrapper for the local GATK 4 installation.
+- `scripts/summarize_depth.py`: converts `samtools depth` streams into summary
+  threshold metrics.
+- `scripts/summarize_duplicate_fragments.py`: summarizes duplicate fragment
+  concentration from duplicate-marked BAM reads.
+
+## Tests
+
+- `tests/test_qc_scripts.py`: unit tests for custom QC summary scripts.
+
+## Documentation
+
+- `docs/project_plan.md`: project plan and phase scope.
+- `docs/yfy_runbook.md`: YFY setup and execution guide.
+- `docs/superpowers/specs/2026-05-09-snp-capture-panel-design.md`: design spec.
+- `docs/superpowers/plans/2026-05-09-snp-capture-panel-qc.md`: implementation
+  plan in Superpowers format.
+- `handoff/`: runtime handoff notes and log summaries.
