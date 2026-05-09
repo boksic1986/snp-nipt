@@ -36,7 +36,7 @@ Processing:
 8. Build BAM index with `samtools index`.
 9. Generate FastQC, samtools flagstat/stats, Qualimap BAM QC, Picard insert-size
    metrics, Picard hybrid-selection metrics, capture depth summary, loci depth
-   summary, and duplicate-fragment concentration summary.
+   summary, and duplicate-fragment concentration reports.
 
 Output:
 
@@ -52,6 +52,9 @@ Output:
     picard/
     depth/
     duplicates/
+      <sample>.duplicate_fragments.summary.tsv
+      <sample>.duplicate_fragments.top.tsv
+      <sample>.duplicate_fragments.histogram.tsv
     qualimap/
   logs/
   resources/
@@ -64,10 +67,10 @@ Output:
 - `loci.bed` is the SNP/loci level target and is summarized separately because
   each locus being covered deeply enough is clinically and analytically
   important.
-- Duplicate rate is assessed both with Picard `MarkDuplicates` metrics and a
-  duplicate-fragment concentration summary. A high duplicate rate concentrated
-  in a few fragment coordinates suggests local over-amplification; a broad
-  distribution suggests low library complexity across the library.
+- Duplicate rate is assessed both with Picard `MarkDuplicates` metrics and
+  duplicate-fragment concentration reports. The top-fragment table highlights
+  local over-amplification, while the histogram shows whether duplicate reads
+  are spread broadly across the library.
 
 ## Open Items
 

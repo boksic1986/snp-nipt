@@ -8,20 +8,18 @@ primary repository.
 
 ## 2. Install GATK 4
 
-GATK 4 is installed under `/home/user/software` so later SNP workflows can reuse it:
+GATK 4 is installed under `/home/user/software` from the shared zip so later SNP
+workflows can reuse it. The wrapper calls the GATK jar directly and expects
+`java` from the active workflow conda environment.
 
 ```bash
 mkdir -p /home/user/software
-/home/user/anaconda3/bin/conda create -y -p /home/user/software/gatk4 -c conda-forge -c bioconda gatk4
+cd /home/user/software
+unzip -q /home/user/shared_data/gatk-4.6.2.0.zip
 mkdir -p /home/user/software/bin
-cat > /home/user/software/bin/gatk4 <<'SH'
-#!/usr/bin/env bash
-set -euo pipefail
-export PATH=/home/user/software/gatk4/bin:${PATH}
-exec /home/user/software/gatk4/bin/gatk "$@"
-SH
+cp scripts/gatk4-wrapper.sh /home/user/software/bin/gatk4
 chmod +x /home/user/software/bin/gatk4
-/home/user/software/bin/gatk4 --list
+/home/user/software/bin/gatk4 --version
 ```
 
 ## 3. Create Conda Environment

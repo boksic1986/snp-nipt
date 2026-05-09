@@ -1,58 +1,6 @@
-import csv
-from pathlib import Path
-
 configfile: "config/config.yaml"
 
-ANALYSIS_DIR = config["analysis_dir"].rstrip("/")
-REFERENCE_FASTA = config["reference_fasta"]
-REFERENCE_DICT = config["reference_dict"]
-GATK = config["gatk"]
-BAIT_BED = config["bait_bed"]
-CAPTURE_BED = config["capture_bed"]
-LOCI_BED = config["loci_bed"]
-BWA_INDEX = [REFERENCE_FASTA + ext for ext in [".amb", ".ann", ".bwt", ".pac", ".sa"]]
-BAIT_INTERVAL_LIST = f"{ANALYSIS_DIR}/resources/probeCov.interval_list"
-CAPTURE_INTERVAL_LIST = f"{ANALYSIS_DIR}/resources/probeCov.predict.interval_list"
-LOCI_INTERVAL_LIST = f"{ANALYSIS_DIR}/resources/loci.interval_list"
-
-
-def load_samples(sample_sheet):
-    samples = {}
-    with open(sample_sheet, newline="") as handle:
-        reader = csv.DictReader(
-            (row for row in handle if row.strip() and not row.startswith("#")),
-            delimiter="\t",
-        )
-        required = {"sample", "fastq_1", "fastq_2"}
-        missing = required.difference(reader.fieldnames or [])
-        if missing:
-            raise ValueError(f"Sample sheet is missing columns: {', '.join(sorted(missing))}")
-
-        for row in reader:
-            sample = row["sample"].strip()
-            if not sample:
-                continue
-            samples[sample] = {
-                "fastq_1": row["fastq_1"].strip(),
-                "fastq_2": row["fastq_2"].strip(),
-            }
-
-    if not samples:
-        raise ValueError("No samples found in sample sheet")
-
-    return samples
-
-
-SAMPLES = load_samples(config["samples"])
-SAMPLE_NAMES = sorted(SAMPLES)
-
-
-def fastq_1(wildcards):
-    return SAMPLES[wildcards.sample]["fastq_1"]
-
-
-def fastq_2(wildcards):
-    return SAMPLES[wildcards.sample]["fastq_2"]
+include: "rules/common.smk"
 
 
 rule all:
@@ -70,12 +18,14 @@ rule all:
         expand(f"{ANALYSIS_DIR}/qc/depth/{{sample}}.capture_depth.summary.tsv", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/qc/depth/{{sample}}.loci_depth.summary.tsv", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.summary.tsv", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.top.tsv", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.histogram.tsv", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/qc/qualimap/{{sample}}", sample=SAMPLE_NAMES),
 
 
-include: "workflow/rules/fastq.smk"
-include: "workflow/rules/bwa.smk"
-include: "workflow/rules/samtools.smk"
-include: "workflow/rules/picard.smk"
-include: "workflow/rules/coverage.smk"
-include: "workflow/rules/qc.smk"
+include: "rules/fastq.smk"
+include: "rules/bwa.smk"
+include: "rules/samtools.smk"
+include: "rules/picard.smk"
+include: "rules/coverage.smk"
+include: "rules/qc.smk"

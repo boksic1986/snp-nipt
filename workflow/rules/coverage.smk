@@ -70,7 +70,9 @@ rule duplicate_fragment_summary:
         bai=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam.bai",
         script="scripts/summarize_duplicate_fragments.py"
     output:
-        summary=f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.summary.tsv"
+        summary=f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.summary.tsv",
+        top=f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.top.tsv",
+        histogram=f"{ANALYSIS_DIR}/qc/duplicates/{{sample}}.duplicate_fragments.histogram.tsv"
     conda:
         "../envs/snakemake.yaml"
     log:
@@ -79,6 +81,8 @@ rule duplicate_fragment_summary:
         """
         mkdir -p $(dirname {output.summary}) $(dirname {log})
         samtools view -f 1024 -f 64 -F 4 {input.bam} 2> {log} \
-        | python {input.script} --output {output.summary} 2>> {log}
+        | python {input.script} \
+            --output {output.summary} \
+            --top-output {output.top} \
+            --histogram-output {output.histogram} 2>> {log}
         """
-

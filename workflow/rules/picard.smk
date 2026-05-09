@@ -3,6 +3,8 @@ rule gatk_sequence_dictionary:
         ref=REFERENCE_FASTA
     output:
         dict=REFERENCE_DICT
+    conda:
+        "../envs/snakemake.yaml"
     params:
         gatk=GATK
     log:
@@ -26,6 +28,8 @@ rule bed_to_interval_lists:
         bait=BAIT_INTERVAL_LIST,
         capture=CAPTURE_INTERVAL_LIST,
         loci=LOCI_INTERVAL_LIST
+    conda:
+        "../envs/snakemake.yaml"
     params:
         gatk=GATK
     log:
@@ -45,6 +49,8 @@ rule picard_markduplicates:
     output:
         bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam",
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.markduplicates.metrics.txt"
+    conda:
+        "../envs/snakemake.yaml"
     params:
         gatk=GATK
     log:
@@ -67,6 +73,8 @@ rule picard_insert_size:
     output:
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.insert_size.metrics.txt",
         pdf=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.insert_size.pdf"
+    conda:
+        "../envs/snakemake.yaml"
     params:
         gatk=GATK
     log:
@@ -92,6 +100,8 @@ rule picard_hs_metrics:
     output:
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.hs_metrics.txt",
         per_target=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.per_target_coverage.txt"
+    conda:
+        "../envs/snakemake.yaml"
     params:
         gatk=GATK
     log:
@@ -107,4 +117,3 @@ rule picard_hs_metrics:
           --TARGET_INTERVALS {input.target_intervals} \
           --PER_TARGET_COVERAGE {output.per_target} > {log} 2>&1
         """
-

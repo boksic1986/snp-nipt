@@ -59,4 +59,5 @@ snakemake -n --cores 8
 snakemake --cores 8 --use-conda
 ```
 
-GATK 4 is expected at `/home/user/software/bin/gatk4`.
+GATK 4 is expected at `/home/user/software/bin/gatk4`; the wrapper runs the
+local GATK jar unpacked from `/home/user/shared_data/gatk-4.6.2.0.zip`.
