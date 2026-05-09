@@ -1,8 +1,8 @@
 rule qualimap_bamqc:
     input:
-        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam",
-        bai=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam.bai",
-        bed=config["target_bed"]
+        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam",
+        bai=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam.bai",
+        bed=CAPTURE_BED
     output:
         directory(f"{ANALYSIS_DIR}/qc/qualimap/{{sample}}")
     threads:

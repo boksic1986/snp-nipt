@@ -6,4 +6,4 @@ workflow/rules/*.smk text eol=lf
 *.yml text eol=lf
 *.tsv text eol=lf
 *.md text eol=lf
-
+*.py text eol=lf

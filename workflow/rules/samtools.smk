@@ -1,8 +1,8 @@
 rule samtools_index:
     input:
-        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam"
+        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam"
     output:
-        bai=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam.bai"
+        bai=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam.bai"
     threads:
         config["threads"]["samtools"]
     conda:
@@ -18,7 +18,7 @@ rule samtools_index:
 
 rule samtools_flagstat:
     input:
-        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam"
+        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam"
     output:
         flagstat=f"{ANALYSIS_DIR}/qc/samtools/{{sample}}.flagstat.txt"
     threads:
@@ -36,7 +36,7 @@ rule samtools_flagstat:
 
 rule samtools_stats:
     input:
-        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam"
+        bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam"
     output:
         stats=f"{ANALYSIS_DIR}/qc/samtools/{{sample}}.stats.txt"
     threads:

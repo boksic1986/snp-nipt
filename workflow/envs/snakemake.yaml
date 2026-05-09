@@ -1,4 +1,4 @@
-name: wes-nipt-snakemake
+name: snp-nipt-snakemake
 channels:
   - conda-forge
   - bioconda
@@ -8,6 +8,7 @@ dependencies:
   - snakemake>=8
   - bwa
   - samtools
+  - bedtools
+  - fastqc
   - qualimap
   - openjdk
-
