@@ -1,0 +1,9 @@
+*.sh text eol=lf
+Snakefile text eol=lf
+workflow/Snakefile text eol=lf
+workflow/rules/*.smk text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.tsv text eol=lf
+*.md text eol=lf
+
