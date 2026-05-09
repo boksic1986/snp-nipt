@@ -65,8 +65,9 @@ Output:
 
 ## Open Items
 
-- Confirm the actual reference FASTA file name under `/home/user/reference`.
-- Confirm the actual BED file name under `/home/user/raw_data/panal/panel_report`.
-- Replace the example row in `config/samples.tsv` with real sample rows.
+- Confirm whether the panel BED was built for hg19 or hg38. The current default
+  is `/home/user/reference/hg19.fa` because it was discovered on YFY.
+- Confirm whether `/home/user/raw_data/panal/panel_report/loci.bed` is the
+  intended target interval BED for BAM QC.
 - Decide later whether Phase 2 should add GATK variant calling, CNV, MultiQC,
   or NIPT-specific low-depth whole-genome analysis.

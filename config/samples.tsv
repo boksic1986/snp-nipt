@@ -1,3 +1,11 @@
 sample	fastq_1	fastq_2
-example_sample	/home/user/raw_data/panal/example_sample_R1.fastq.gz	/home/user/raw_data/panal/example_sample_R2.fastq.gz
-
+JZ26085884-SSL-1-Sample2	/home/user/raw_data/panal/Sample_JZ26085884-SSL-1-Sample2/JZ26085884-SSL-1-Sample2_combined_R1_clean.fastq.gz	/home/user/raw_data/panal/Sample_JZ26085884-SSL-1-Sample2/JZ26085884-SSL-1-Sample2_combined_R2_clean.fastq.gz
+JZ26085885-SSL-2-Sample17	/home/user/raw_data/panal/Sample_JZ26085885-SSL-2-Sample17/JZ26085885-SSL-2-Sample17_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26085885-SSL-2-Sample17/JZ26085885-SSL-2-Sample17_combined_R2.fastq.gz
+JZ26085885-SSL-2-Sample6	/home/user/raw_data/panal/Sample_JZ26085885-SSL-2-Sample6/JZ26085885-SSL-2-Sample6_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26085885-SSL-2-Sample6/JZ26085885-SSL-2-Sample6_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample10A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample10A/JZ26089875-SSL-4-Sample10A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample10A/JZ26089875-SSL-4-Sample10A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample12A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample12A/JZ26089875-SSL-4-Sample12A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample12A/JZ26089875-SSL-4-Sample12A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample14A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample14A/JZ26089875-SSL-4-Sample14A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample14A/JZ26089875-SSL-4-Sample14A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample18A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample18A/JZ26089875-SSL-4-Sample18A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample18A/JZ26089875-SSL-4-Sample18A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample3A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample3A/JZ26089875-SSL-4-Sample3A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample3A/JZ26089875-SSL-4-Sample3A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample4A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample4A/JZ26089875-SSL-4-Sample4A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample4A/JZ26089875-SSL-4-Sample4A_combined_R2.fastq.gz
+JZ26089875-SSL-4-Sample9A	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample9A/JZ26089875-SSL-4-Sample9A_combined_R1.fastq.gz	/home/user/raw_data/panal/Sample_JZ26089875-SSL-4-Sample9A/JZ26089875-SSL-4-Sample9A_combined_R2.fastq.gz

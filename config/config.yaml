@@ -3,12 +3,13 @@ raw_data_dir: /home/user/raw_data/panal
 panel_report_dir: /home/user/raw_data/panal/panel_report
 analysis_dir: /home/user/analysis
 
-# Update this if the reference FASTA file has a different name.
+# Default discovered on YFY. Switch to hg38.fa here if the panel BED was built
+# against GRCh38.
 reference_dir: /home/user/reference
-reference_fasta: /home/user/reference/genome.fa
+reference_fasta: /home/user/reference/hg19.fa
 
-# Update this after checking the BED file name in panel_report_dir.
-target_bed: /home/user/raw_data/panal/panel_report/panel.bed
+# Default discovered on YFY panel_report directory.
+target_bed: /home/user/raw_data/panal/panel_report/loci.bed
 
 # Sample sheet path relative to repository root.
 samples: config/samples.tsv
@@ -20,4 +21,3 @@ threads:
   bamqc: 4
 
 java_mem: 8G
-

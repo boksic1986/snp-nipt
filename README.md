@@ -45,5 +45,5 @@ snakemake -n --cores 8
 snakemake --cores 8 --use-conda
 ```
 
-Before running, confirm `config/config.yaml` points to the real reference FASTA
-under `/home/user/reference`.
+Before running, confirm whether the panel uses `hg19.fa` or `hg38.fa`; the
+default is currently `/home/user/reference/hg19.fa`.
