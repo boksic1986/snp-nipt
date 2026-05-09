@@ -1,0 +1,23 @@
+# YFY runtime paths.
+raw_data_dir: /home/user/raw_data/panal
+panel_report_dir: /home/user/raw_data/panal/panel_report
+analysis_dir: /home/user/analysis
+
+# Update this if the reference FASTA file has a different name.
+reference_dir: /home/user/reference
+reference_fasta: /home/user/reference/genome.fa
+
+# Update this after checking the BED file name in panel_report_dir.
+target_bed: /home/user/raw_data/panal/panel_report/panel.bed
+
+# Sample sheet path relative to repository root.
+samples: config/samples.tsv
+
+# Resource defaults.
+threads:
+  bwa: 8
+  samtools: 4
+  bamqc: 4
+
+java_mem: 8G
+

@@ -1,0 +1,22 @@
+.snakemake/
+.conda/
+logs/
+tmp/
+*.log
+*.tmp
+*.swp
+*.swo
+__pycache__/
+
+# Large analysis outputs should stay on YFY under /home/user/analysis.
+analysis/
+results/
+*.bam
+*.bai
+*.cram
+*.crai
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+

@@ -1,0 +1,61 @@
+import csv
+from pathlib import Path
+
+configfile: "config/config.yaml"
+
+ANALYSIS_DIR = config["analysis_dir"].rstrip("/")
+REFERENCE_FASTA = config["reference_fasta"]
+BWA_INDEX = [REFERENCE_FASTA + ext for ext in [".amb", ".ann", ".bwt", ".pac", ".sa"]]
+
+
+def load_samples(sample_sheet):
+    samples = {}
+    with open(sample_sheet, newline="") as handle:
+        reader = csv.DictReader(
+            (row for row in handle if row.strip() and not row.startswith("#")),
+            delimiter="\t",
+        )
+        required = {"sample", "fastq_1", "fastq_2"}
+        missing = required.difference(reader.fieldnames or [])
+        if missing:
+            raise ValueError(f"Sample sheet is missing columns: {', '.join(sorted(missing))}")
+
+        for row in reader:
+            sample = row["sample"].strip()
+            if not sample:
+                continue
+            samples[sample] = {
+                "fastq_1": row["fastq_1"].strip(),
+                "fastq_2": row["fastq_2"].strip(),
+            }
+
+    if not samples:
+        raise ValueError("No samples found in sample sheet")
+
+    return samples
+
+
+SAMPLES = load_samples(config["samples"])
+SAMPLE_NAMES = sorted(SAMPLES)
+
+
+def fastq_1(wildcards):
+    return SAMPLES[wildcards.sample]["fastq_1"]
+
+
+def fastq_2(wildcards):
+    return SAMPLES[wildcards.sample]["fastq_2"]
+
+
+rule all:
+    input:
+        expand(f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam.bai", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/samtools/{{sample}}.flagstat.txt", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/samtools/{{sample}}.stats.txt", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/qualimap/{{sample}}", sample=SAMPLE_NAMES),
+
+
+include: "workflow/rules/bwa.smk"
+include: "workflow/rules/samtools.smk"
+include: "workflow/rules/qc.smk"
