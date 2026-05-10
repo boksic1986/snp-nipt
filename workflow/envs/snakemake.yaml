@@ -9,6 +9,7 @@ dependencies:
   - bwa
   - samtools
   - bedtools
+  - fastp
   - fastqc
   - qualimap
   - openjdk

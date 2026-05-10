@@ -5,6 +5,8 @@ include: "rules/common.smk"
 
 rule all:
     input:
+        expand(f"{ANALYSIS_DIR}/qc/fastp/{{sample}}.fastp.html", sample=SAMPLE_NAMES),
+        expand(f"{ANALYSIS_DIR}/qc/fastp/{{sample}}.fastp.json", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/qc/fastqc/{{sample}}", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam", sample=SAMPLE_NAMES),
         expand(f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam.bai", sample=SAMPLE_NAMES),

@@ -51,3 +51,10 @@ def fastq_1(wildcards):
 def fastq_2(wildcards):
     return SAMPLES[wildcards.sample]["fastq_2"]
 
+
+def clean_fastq_1(wildcards):
+    return f"{ANALYSIS_DIR}/fastq/fastp/{wildcards.sample}.R1.fastq.gz"
+
+
+def clean_fastq_2(wildcards):
+    return f"{ANALYSIS_DIR}/fastq/fastp/{wildcards.sample}.R2.fastq.gz"

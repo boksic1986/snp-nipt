@@ -18,8 +18,8 @@ rule bwa_mem_sort:
     input:
         ref=REFERENCE_FASTA,
         index=BWA_INDEX,
-        fastq_1=fastq_1,
-        fastq_2=fastq_2
+        fastq_1=clean_fastq_1,
+        fastq_2=clean_fastq_2
     output:
         bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam"
     threads:

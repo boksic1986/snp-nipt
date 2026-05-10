@@ -24,6 +24,7 @@ threads:
   bwa: 16
   samtools: 16
   fastqc: 4
+  fastp: 8
   picard: 32
   bamqc: 16
   depth: 16
@@ -35,6 +36,9 @@ resources:
 
 java_mem: 16G
 picard_tmp_dir: /home/user/analysis/tmp/picard
+fastp:
+  qualified_quality_phred: 20
+  length_required: 30
 depth_thresholds: 1,10,20,30,50,100
 depth_min_base_quality: 20
 depth_min_mapping_quality: 20
