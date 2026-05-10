@@ -188,3 +188,29 @@ nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
   --printshellcmds --latency-wait 60 \
   > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
 ```
+
+## Health Check After Thread Tuning
+
+Checked at 2026-05-10 09:53 CST.
+
+Status:
+
+- GitHub `main` was confirmed at `94051c6`.
+- Active Snakemake PID: `1401337`.
+- Active command includes explicit `--snakefile`, `--configfile`,
+  `--directory`, `--cores 96`, and `--rerun-triggers mtime`.
+- YFY load average was about `48`, reasonable for the 112 CPU host.
+- Available memory was about `61 GiB`.
+- Active BWA jobs were running with `bwa mem -t 16`.
+- Active samtools sort jobs were running with `samtools sort -@ 16`.
+- No Snakemake failure or traceback was present in the recent main log.
+
+Recent progress:
+
+```text
+Finished jobid: 19 (Rule: bwa_mem_sort)
+Finished jobid: 23 (Rule: bwa_mem_sort)
+```
+
+The workflow is considered healthy and continuing under the tuned thread
+configuration.
