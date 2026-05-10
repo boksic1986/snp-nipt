@@ -7,6 +7,8 @@ rule qualimap_bamqc:
         directory(f"{ANALYSIS_DIR}/qc/qualimap/{{sample}}")
     threads:
         config["threads"]["bamqc"]
+    resources:
+        mem_mb=config["resources"]["bamqc_mem_mb"]
     conda:
         "../envs/snakemake.yaml"
     params:

@@ -51,20 +51,26 @@ rule picard_markduplicates:
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.markduplicates.metrics.txt"
     threads:
         config["threads"]["picard"]
+    resources:
+        mem_mb=config["resources"]["picard_mem_mb"]
     conda:
         "../envs/snakemake.yaml"
     params:
-        gatk=GATK
+        gatk=GATK,
+        java_mem=config["java_mem"],
+        tmp_dir=config["picard_tmp_dir"]
     log:
         f"{ANALYSIS_DIR}/logs/{{sample}}.markduplicates.log"
     shell:
         """
-        mkdir -p $(dirname {output.bam}) $(dirname {output.metrics}) $(dirname {log})
-        {params.gatk} MarkDuplicates \
+        mkdir -p $(dirname {output.bam}) $(dirname {output.metrics}) $(dirname {log}) {params.tmp_dir}
+        JAVA_TOOL_OPTIONS="-Xmx{params.java_mem} -Djava.io.tmpdir={params.tmp_dir}" \
+          {params.gatk} MarkDuplicates \
           -I {input.bam} \
           -O {output.bam} \
           -M {output.metrics} \
-          --CREATE_INDEX false > {log} 2>&1
+          --CREATE_INDEX false \
+          --TMP_DIR {params.tmp_dir} > {log} 2>&1
         """
 
 
@@ -77,20 +83,26 @@ rule picard_insert_size:
         pdf=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.insert_size.pdf"
     threads:
         config["threads"]["picard"]
+    resources:
+        mem_mb=config["resources"]["picard_mem_mb"]
     conda:
         "../envs/snakemake.yaml"
     params:
-        gatk=GATK
+        gatk=GATK,
+        java_mem=config["java_mem"],
+        tmp_dir=config["picard_tmp_dir"]
     log:
         f"{ANALYSIS_DIR}/logs/{{sample}}.insert_size.log"
     shell:
         """
-        mkdir -p $(dirname {output.metrics}) $(dirname {log})
-        {params.gatk} CollectInsertSizeMetrics \
+        mkdir -p $(dirname {output.metrics}) $(dirname {log}) {params.tmp_dir}
+        JAVA_TOOL_OPTIONS="-Xmx{params.java_mem} -Djava.io.tmpdir={params.tmp_dir}" \
+          {params.gatk} CollectInsertSizeMetrics \
           -I {input.bam} \
           -O {output.metrics} \
           -H {output.pdf} \
-          -M 0.5 > {log} 2>&1
+          -M 0.5 \
+          --TMP_DIR {params.tmp_dir} > {log} 2>&1
         """
 
 
@@ -106,20 +118,26 @@ rule picard_hs_metrics:
         per_target=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.per_target_coverage.txt"
     threads:
         config["threads"]["picard"]
+    resources:
+        mem_mb=config["resources"]["picard_mem_mb"]
     conda:
         "../envs/snakemake.yaml"
     params:
-        gatk=GATK
+        gatk=GATK,
+        java_mem=config["java_mem"],
+        tmp_dir=config["picard_tmp_dir"]
     log:
         f"{ANALYSIS_DIR}/logs/{{sample}}.hs_metrics.log"
     shell:
         """
-        mkdir -p $(dirname {output.metrics}) $(dirname {log})
-        {params.gatk} CollectHsMetrics \
+        mkdir -p $(dirname {output.metrics}) $(dirname {log}) {params.tmp_dir}
+        JAVA_TOOL_OPTIONS="-Xmx{params.java_mem} -Djava.io.tmpdir={params.tmp_dir}" \
+          {params.gatk} CollectHsMetrics \
           -I {input.bam} \
           -O {output.metrics} \
           -R {input.ref} \
           --BAIT_INTERVALS {input.bait_intervals} \
           --TARGET_INTERVALS {input.target_intervals} \
-          --PER_TARGET_COVERAGE {output.per_target} > {log} 2>&1
+          --PER_TARGET_COVERAGE {output.per_target} \
+          --TMP_DIR {params.tmp_dir} > {log} 2>&1
         """

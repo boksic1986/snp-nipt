@@ -1,6 +1,6 @@
 # Current State
 
-Snapshot time: 2026-05-10 00:57:57 CST on YFY.
+Snapshot time: 2026-05-10 13:51 CST on YFY.
 
 ## Repository
 
@@ -32,7 +32,7 @@ NIPT-specific analysis is intentionally deferred.
 
 ## Current YFY Run
 
-- Snakemake PID: `1272575`
+- Snakemake PID: `1518695`
 - PID file: `/home/user/analysis/logs/snp-nipt.snakemake.pid`
 - Main log: `/home/user/analysis/logs/snp-nipt.snakemake.run.log`
 - Command shape:
@@ -41,15 +41,38 @@ NIPT-specific analysis is intentionally deferred.
 cd /home/user/snp-nipt
 nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
   /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
-  --cores 8 --rerun-incomplete --printshellcmds --latency-wait 60 \
+  --snakefile /home/user/snp-nipt/Snakefile \
+  --configfile /home/user/snp-nipt/config/config.yaml \
+  --directory /home/user/snp-nipt \
+  --cores 96 \
+  --resources mem_mb=96000 \
+  --rerun-incomplete \
+  --rerun-triggers mtime \
+  --printshellcmds \
+  --latency-wait 60 \
   > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
 ```
 
-Observed progress at snapshot:
+Current resource controls:
 
-- `4 of 123 steps (3%) done`
-- FastQC jobs were completing and more FastQC jobs were being scheduled.
-- `find /home/user/analysis/qc/fastqc` reported 16 FastQC zip/html files.
+- `threads.bwa: 16`
+- `threads.samtools: 16`
+- `threads.picard: 32`
+- `threads.bamqc: 16`
+- `resources.total_mem_mb: 96000`
+- `resources.picard_mem_mb: 32000`
+- `resources.bamqc_mem_mb: 24000`
+- `java_mem: 16G`
+
+Recent runtime note:
+
+- The previous `--cores 96` run failed in `picard_markduplicates` with exit
+  status `137`, caused by too many high-memory Picard jobs running
+  concurrently.
+- Picard now uses `JAVA_TOOL_OPTIONS` for `-Xmx16G` because the YFY `gatk4`
+  wrapper does not support front-loaded `--java-options`.
+- Dry-run and post-launch checks confirmed the memory resources are visible in
+  Snakemake, and Picard entered `CollectHsMetrics` normally after restart.
 
 ## Known Runtime Context
 

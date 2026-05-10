@@ -214,3 +214,75 @@ Finished jobid: 23 (Rule: bwa_mem_sort)
 
 The workflow is considered healthy and continuing under the tuned thread
 configuration.
+
+## Picard Memory-Limited Restart
+
+Checked at 2026-05-10 13:51 CST.
+
+The tuned `--cores 96` run later exited during `picard_markduplicates` with
+exit status `137` for:
+
+```text
+JZ26089875-SSL-4-Sample9A
+JZ26089875-SSL-4-Sample4A
+```
+
+Root cause:
+
+- `gatk4 MarkDuplicates` defaulted to about 32G max Java heap per process.
+- With `threads.picard: 16` and `--cores 96`, Snakemake could schedule up to
+  six Picard jobs concurrently.
+- That combination exceeded practical memory headroom on YFY.
+
+Workflow changes synced to `/home/user/snp-nipt`:
+
+- `threads.picard` increased to `32`, limiting Picard concurrency to at most
+  three jobs under `--cores 96`.
+- `resources.total_mem_mb` set to `96000`.
+- `resources.picard_mem_mb` set to `32000`.
+- `resources.bamqc_mem_mb` set to `24000`.
+- Picard rules now set `JAVA_TOOL_OPTIONS="-Xmx16G -Djava.io.tmpdir=..."`.
+- `qualimap_bamqc` now declares `mem_mb=24000`.
+
+Important implementation note:
+
+- The local `/home/user/software/bin/gatk4` wrapper is a simple
+  `java -jar ... "$@"` script and does not support front-loaded
+  `--java-options`. Use `JAVA_TOOL_OPTIONS` for this runtime.
+
+Interrupted orphan processes from earlier restart attempts were limited to
+`JZ26089875-SSL-4-Sample18A` and `JZ26089875-SSL-4-Sample3A`; those orphaned
+derived-processes were stopped, and only the affected derived QC outputs were
+removed before restart.
+
+Active restart PID:
+
+```text
+1518695
+```
+
+Active restart command:
+
+```bash
+cd /home/user/snp-nipt
+nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
+  /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --snakefile /home/user/snp-nipt/Snakefile \
+  --configfile /home/user/snp-nipt/config/config.yaml \
+  --directory /home/user/snp-nipt \
+  --cores 96 \
+  --resources mem_mb=96000 \
+  --rerun-incomplete \
+  --rerun-triggers mtime \
+  --printshellcmds \
+  --latency-wait 60 \
+  > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
+```
+
+Verification:
+
+- Dry-run succeeded with Picard `mem_mb=32000` and Qualimap `mem_mb=24000`.
+- `JZ26089875-SSL-4-Sample3A.hs_metrics.log` showed
+  `Picked up JAVA_TOOL_OPTIONS` and `CollectHsMetrics` processing records.
+- No new `error` lines were present in the restarted Snakemake log during the
+  quick post-launch check.
