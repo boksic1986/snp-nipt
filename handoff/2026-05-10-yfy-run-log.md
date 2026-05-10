@@ -81,3 +81,39 @@ List failed or recent rule logs if Snakemake stops:
 ```bash
 ssh YFY "ls -lt /home/user/analysis/logs | head"
 ```
+
+## Cores 96 Switch
+
+At 2026-05-10 08:49 CST the workflow was still running with `--cores 8`.
+YFY had 112 CPUs and low load, so a background switch script was started to
+raise Snakemake to `--cores 96` after the active `Sample4A` BWA/sort job
+finishes.
+
+- Switch watcher PID: `1391617`
+- Switch watcher PID file:
+  `/home/user/analysis/logs/snp-nipt.switch-to-96.pid`
+- Switch log: `/home/user/analysis/logs/snp-nipt.switch-to-96.log`
+- Switch script: `/home/user/analysis/logs/snp-nipt.switch-to-96.sh`
+- Current old Snakemake PID before switch: `1272575`
+
+The watcher waits for:
+
+```text
+/home/user/analysis/bam/JZ26089875-SSL-4-Sample4A.sorted.bam
+```
+
+Then it stops the old `--cores 8` Snakemake process and restarts:
+
+```bash
+cd /home/user/snp-nipt
+nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
+  /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --cores 96 --rerun-incomplete --printshellcmds --latency-wait 60 \
+  > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
+```
+
+Check switch progress:
+
+```bash
+ssh YFY "cat /home/user/analysis/logs/snp-nipt.switch-to-96.pid; tail -80 /home/user/analysis/logs/snp-nipt.switch-to-96.log"
+```
