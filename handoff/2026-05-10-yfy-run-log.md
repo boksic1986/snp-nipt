@@ -120,3 +120,71 @@ Check switch progress:
 ```bash
 ssh YFY "cat /home/user/analysis/logs/snp-nipt.switch-to-96.pid; tail -80 /home/user/analysis/logs/snp-nipt.switch-to-96.log"
 ```
+
+## Tool Thread Tuning
+
+At 2026-05-10 09:06 CST, Snakemake was restarted again after increasing
+per-tool thread settings in `config/config.yaml` and syncing the updated
+workflow files to YFY.
+
+Updated thread settings:
+
+```yaml
+threads:
+  bwa: 16
+  samtools: 16
+  fastqc: 4
+  picard: 16
+  bamqc: 16
+  depth: 16
+```
+
+`workflow/rules/bwa.smk` now declares each `bwa_mem_sort` job as 32 Snakemake
+threads and runs:
+
+```bash
+bwa mem -t 16 ... | samtools sort -@ 16 ...
+```
+
+Picard rules now declare `threads: 16` for Snakemake scheduling. Picard
+MarkDuplicates itself is not meaningfully multithreaded here; this thread
+declaration is used to limit how many memory-heavy Picard jobs Snakemake runs at
+once.
+
+Important: after changing rule code/thread parameters, Snakemake initially tried
+to rerun already completed BWA outputs. That restart was stopped quickly. The
+active restart uses:
+
+```bash
+--rerun-triggers mtime
+```
+
+so completed outputs are not rerun merely because rule code or thread parameters
+changed. Three completed sorted BAMs had already been touched by the short
+wrong restart and are being regenerated:
+
+```text
+JZ26085885-SSL-2-Sample6.sorted.bam
+JZ26089875-SSL-4-Sample14A.sorted.bam
+JZ26089875-SSL-4-Sample10A.sorted.bam
+```
+
+Active tuned Snakemake PID:
+
+```text
+1401337
+```
+
+Active tuned launch command:
+
+```bash
+cd /home/user/snp-nipt
+nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
+  /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --snakefile /home/user/snp-nipt/Snakefile \
+  --configfile /home/user/snp-nipt/config/config.yaml \
+  --directory /home/user/snp-nipt \
+  --cores 96 --rerun-incomplete --rerun-triggers mtime \
+  --printshellcmds --latency-wait 60 \
+  > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
+```

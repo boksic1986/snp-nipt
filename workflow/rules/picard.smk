@@ -49,6 +49,8 @@ rule picard_markduplicates:
     output:
         bam=f"{ANALYSIS_DIR}/bam/{{sample}}.markdup.bam",
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.markduplicates.metrics.txt"
+    threads:
+        config["threads"]["picard"]
     conda:
         "../envs/snakemake.yaml"
     params:
@@ -73,6 +75,8 @@ rule picard_insert_size:
     output:
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.insert_size.metrics.txt",
         pdf=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.insert_size.pdf"
+    threads:
+        config["threads"]["picard"]
     conda:
         "../envs/snakemake.yaml"
     params:
@@ -100,6 +104,8 @@ rule picard_hs_metrics:
     output:
         metrics=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.hs_metrics.txt",
         per_target=f"{ANALYSIS_DIR}/qc/picard/{{sample}}.per_target_coverage.txt"
+    threads:
+        config["threads"]["picard"]
     conda:
         "../envs/snakemake.yaml"
     params:

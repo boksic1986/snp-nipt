@@ -21,11 +21,12 @@ samples: config/samples.tsv
 
 # Resource defaults.
 threads:
-  bwa: 8
-  samtools: 4
-  fastqc: 2
-  bamqc: 4
-  depth: 4
+  bwa: 16
+  samtools: 16
+  fastqc: 4
+  picard: 16
+  bamqc: 16
+  depth: 16
 
 java_mem: 8G
 depth_thresholds: 1,10,20,30,50,100

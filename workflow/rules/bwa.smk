@@ -23,17 +23,20 @@ rule bwa_mem_sort:
     output:
         bam=f"{ANALYSIS_DIR}/bam/{{sample}}.sorted.bam"
     threads:
-        config["threads"]["bwa"]
+        config["threads"]["bwa"] + config["threads"]["samtools"]
     conda:
         "../envs/snakemake.yaml"
+    params:
+        bwa_threads=config["threads"]["bwa"],
+        sort_threads=config["threads"]["samtools"]
     log:
         f"{ANALYSIS_DIR}/logs/{{sample}}.bwa_mem_sort.log"
     shell:
         r"""
         mkdir -p $(dirname {output.bam}) $(dirname {log})
         bwa mem \
-          -t {threads} \
+          -t {params.bwa_threads} \
           -R '@RG\tID:{wildcards.sample}\tSM:{wildcards.sample}\tPL:ILLUMINA' \
           {input.ref} {input.fastq_1} {input.fastq_2} 2> {log} \
-        | samtools sort -@ {threads} -o {output.bam} - 2>> {log}
+        | samtools sort -@ {params.sort_threads} -o {output.bam} - 2>> {log}
         """
