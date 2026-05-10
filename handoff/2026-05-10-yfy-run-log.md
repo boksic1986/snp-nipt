@@ -108,6 +108,9 @@ Then it stops the old `--cores 8` Snakemake process and restarts:
 cd /home/user/snp-nipt
 nohup env PATH=/home/user/anaconda3/envs/snp-nipt-snakemake/bin:$PATH \
   /home/user/anaconda3/envs/snp-nipt-snakemake/bin/snakemake \
+  --snakefile /home/user/snp-nipt/Snakefile \
+  --configfile /home/user/snp-nipt/config/config.yaml \
+  --directory /home/user/snp-nipt \
   --cores 96 --rerun-incomplete --printshellcmds --latency-wait 60 \
   > /home/user/analysis/logs/snp-nipt.snakemake.run.log 2>&1 &
 ```
